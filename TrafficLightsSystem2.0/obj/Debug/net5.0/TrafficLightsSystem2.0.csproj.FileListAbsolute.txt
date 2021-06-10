@@ -1,0 +1,16 @@
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\bin\Debug\net5.0\TrafficLightsSystem2.0.exe
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\bin\Debug\net5.0\TrafficLightsSystem2.0.deps.json
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\bin\Debug\net5.0\TrafficLightsSystem2.0.runtimeconfig.json
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\bin\Debug\net5.0\TrafficLightsSystem2.0.runtimeconfig.dev.json
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\bin\Debug\net5.0\TrafficLightsSystem2.0.dll
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\bin\Debug\net5.0\ref\TrafficLightsSystem2.0.dll
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\bin\Debug\net5.0\TrafficLightsSystem2.0.pdb
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.csprojAssemblyReference.cache
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.AssemblyInfoInputs.cache
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.AssemblyInfo.cs
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.csproj.CoreCompileInputs.cache
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.dll
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\ref\TrafficLightsSystem2.0.dll
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.pdb
+C:\Users\niyaz\source\repos\TrafficLightsSystem2.0\TrafficLightsSystem2.0\obj\Debug\net5.0\TrafficLightsSystem2.0.genruntimeconfig.cache
