@@ -17,6 +17,8 @@ namespace TrafficLightsSystem2._0
                 Console.WriteLine("5. Start the system");
                 Console.WriteLine("6. Stop the lights by street");
                 Console.WriteLine("7. Start the lights by street");
+                Console.WriteLine("8. Stop the lights by block");
+                Console.WriteLine("9. Start the lights by block");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("Enter a selection, please");
                 string optionstr = Console.ReadLine();
@@ -47,6 +49,12 @@ namespace TrafficLightsSystem2._0
                         break;
                     case 7:
                         MenuService.StartLightByStreetMenu();
+                        break;
+                    case 8:
+                        MenuService.StopLightByBlockMenu();
+                        break;
+                    case 9:
+                        MenuService.StartLightByBlockMenu();
                         break;
                     case 0:
                         Console.WriteLine("Shutting down...");

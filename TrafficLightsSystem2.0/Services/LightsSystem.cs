@@ -17,14 +17,25 @@ namespace TrafficLightsSystem2._0.Services
         }
         public void AddBlock(string blockname)
         {
-            Block block = new();
-            block.Name = blockname;
+            Block block = new();                                   
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Name can not be null");
+            block.Name = blockname.ToLower();
             Blocks.Add(block);
         }
         public static int check = 0;
         public void AddStreet(string blockname, string name, string type)
         {
             var block = Blocks.Find(s => s.Name == blockname);
+            if (block == null)
+                throw new KeyNotFoundException("There is no such block");
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Block name can not be null");
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("Street name can not br null");
+            if (string.IsNullOrEmpty(type))
+                throw new ArgumentNullException("Type can not be null");
+            block.Name = blockname;
             Street street = new(name, type);
             if (type == "parallel")
             {
@@ -38,6 +49,10 @@ namespace TrafficLightsSystem2._0.Services
         public void RemoveBlock(string blockname)
         {
             var block = Blocks.Find(s=>s.Name == blockname);
+            if (block == null)
+                throw new KeyNotFoundException("There is no such block");
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Block name can not be null");
             block.ParallelStreets.Clear();
             block.PerpendicularStreets.Clear();
             Blocks.Remove(block);
@@ -46,7 +61,11 @@ namespace TrafficLightsSystem2._0.Services
         {
             var block = Blocks.Find(s => s.Name == blockname);
             if (block == null)
-                throw new ArgumentNullException("There is no such block.");
+                throw new ArgumentNullException("There is no such block");
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Block name can not be null");
+            if(string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("Street name can not be null");
             var parallelresult = block.ParallelStreets.FindIndex(s => s.Name == name);
             var perpendicularresult = block.PerpendicularStreets.FindIndex(s => s.Name == name);
             if (parallelresult == -1 && perpendicularresult == -1)
@@ -63,29 +82,34 @@ namespace TrafficLightsSystem2._0.Services
         public void Lights()
         {
             Timer time = new();
+            
             while (check != 1)
             {
                 if (check == 1)
                     throw new KeyNotFoundException("System has stopped.");
                 time.Time = DateTime.Now;
                 time.FutureTime = time.Time.AddSeconds(10);
-                foreach (var item in ParallelStreets )
+                foreach (var item in Blocks)
                 {
-                    if (item.Status != "Disabled")
+                    foreach (var item1 in item.ParallelStreets)
                     {
-                        item.Status = "Red";
+                        if (item1.Status != "Disabled")
+                        {
+                            item1.Status = "Red";
+                        }
+                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
                     }
-                    Console.WriteLine($"{item.Name}, {item.Status}, {item.Type.First().ToString().ToUpper() + item.Type.Substring(1)}");
+
+                    foreach (var item1 in item.PerpendicularStreets)
+                    {
+                        if (item1.Status != "Disabled")
+                        {
+                            item1.Status = "Green";
+                        }
+                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
+                    }
                 }
 
-                foreach (var item in PerpendicularStreets)
-                {
-                    if (item.Status != "Disabled")
-                    {
-                        item.Status = "Green";
-                    }
-                    Console.WriteLine($"{item.Name}, {item.Status}, {item.Type.First().ToString().ToUpper() + item.Type.Substring(1)}");
-                }
                 Console.WriteLine("============================");
 
                 while (time.Time.Second != time.FutureTime.Second)
@@ -95,23 +119,27 @@ namespace TrafficLightsSystem2._0.Services
                     time.Time = DateTime.Now;
                 }
 
-                foreach (var item in ParallelStreets)
+                foreach (var item in Blocks)
                 {
-                    if (item.Status != "Disabled")
+                    foreach (var item1 in item.ParallelStreets)
                     {
-                        item.Status = "Green";
+                        if (item1.Status != "Disabled")
+                        {
+                            item1.Status = "Green";
+                        }
+                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
                     }
-                    Console.WriteLine($"{item.Name}, {item.Status}, {item.Type.First().ToString().ToUpper() + item.Type.Substring(1)}");
+
+                    foreach (var item1 in item.PerpendicularStreets)
+                    {
+                        if (item1.Status != "Disabled")
+                        {
+                            item1.Status = "Red";
+                        }
+                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
+                    }
                 }
 
-                foreach (var item in PerpendicularStreets)
-                {
-                    if (item.Status != "Disabled")
-                    {
-                        item.Status = "Red";
-                    }
-                    Console.WriteLine($"{item.Name}, {item.Status}, {item.Type.First().ToString().ToUpper() + item.Type.Substring(1)}");
-                }
 
                 time.FutureTime = time.Time.AddSeconds(10);
                 while (time.Time.Second != time.FutureTime.Second)
@@ -126,6 +154,12 @@ namespace TrafficLightsSystem2._0.Services
         public void StopLightsByStreet(string blockname, string name)
         {
             var block = Blocks.Find(s => s.Name == blockname);
+            if (block == null)
+                throw new KeyNotFoundException("There is no such block");
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Block name can not be null");
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("Street name can not be null");
             var parallelresult = block.ParallelStreets.FindIndex(s => s.Name == name);
             var perpendicularresult = block.PerpendicularStreets.FindIndex(s => s.Name == name);
             if (parallelresult == -1 && perpendicularresult == -1)
@@ -144,6 +178,12 @@ namespace TrafficLightsSystem2._0.Services
         public void StartLightByStreet(string blockname, string name)
         {
             var block = Blocks.Find(s => s.Name == blockname);
+            if (block == null)
+                throw new KeyNotFoundException("There is no such block");
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Block name can not be null");
+            if (string.IsNullOrEmpty(name))
+                throw new ArgumentNullException("Street name can not be null");
             var parallelresult = block.ParallelStreets.FindIndex(s => s.Name == name);
             var perpendicularresult = block.PerpendicularStreets.FindIndex(s => s.Name == name);
             if (parallelresult == -1 && perpendicularresult == -1)
@@ -170,6 +210,8 @@ namespace TrafficLightsSystem2._0.Services
                 Console.WriteLine("4. Remove street");
                 Console.WriteLine("5. Stop the lights by street");
                 Console.WriteLine("6. Start the lights by street");
+                Console.WriteLine("7. Stop the lights by block");
+                Console.WriteLine("8. Start the lights by block");
                 Console.WriteLine("0. Exit");
                 Console.WriteLine("Enter a selection, please");
                 string optionstr = Console.ReadLine();
@@ -198,8 +240,15 @@ namespace TrafficLightsSystem2._0.Services
                     case 6:
                         MenuService.StartLightByStreetMenu();
                         break;
+                    case 7:
+                        MenuService.StopLightByBlockMenu();
+                        break;
+                    case 8:
+                        MenuService.StartLightByBlockMenu();
+                        break;
                     case 0:
                         Console.WriteLine("Shutting down...");
+                        check = 1;
                         break;
                     default:
                         Console.WriteLine("There is no such option");
@@ -210,6 +259,38 @@ namespace TrafficLightsSystem2._0.Services
         public void StartSystem()
         {
             Parallel.Invoke(HiddenMenu, Lights);
+        }
+        public void StopLightByBlock(string blockname)
+        {
+            var block = Blocks.Find(s=>s.Name == blockname);
+            if (block == null)
+                throw new KeyNotFoundException("There is no such block");
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Block name can not be null");
+            foreach (var item in block.ParallelStreets)
+            {
+                item.Status = "Disabled";
+            }
+            foreach (var item in block.PerpendicularStreets)
+            {
+                item.Status = "Disabled";
+            }
+        }
+        public void StartLightByBlock(string blockname)
+        {
+            var block = Blocks.Find(s => s.Name == blockname);
+            if (block == null)
+                throw new KeyNotFoundException("There is no such block");
+            if (string.IsNullOrEmpty(blockname))
+                throw new ArgumentNullException("Block name can not be null");
+            foreach (var item in block.ParallelStreets)
+            {
+                item.Status = string.Empty;
+            }
+            foreach (var item in block.PerpendicularStreets)
+            {
+                item.Status = string.Empty;
+            }
         }
     }
 }

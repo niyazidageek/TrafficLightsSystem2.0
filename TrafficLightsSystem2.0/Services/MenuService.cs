@@ -12,52 +12,135 @@ namespace TrafficLightsSystem2._0.Services
         public static void AddBlockMenu()
         {
             Console.WriteLine("Enter the name of the block");
-            string blockname = Console.ReadLine();
-            method.AddBlock(blockname);
+            string blockname = Console.ReadLine().ToLower();
+            try
+            {
+                method.AddBlock(blockname);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            }           
         }
         public static void AddStreetMenu()
         {
             Console.WriteLine("Enter the name of the block");
-            string blockname = Console.ReadLine();
+            string blockname = Console.ReadLine().ToLower();
             Console.WriteLine("Enter the name of the street");
-            string name = Console.ReadLine();
+            string name = Console.ReadLine().ToLower();
             Console.WriteLine("Enter the type of the street(Parallel/Perpendicular)");
-            string type = Console.ReadLine();
-            method.AddStreet(blockname, name, type);
+            string type = Console.ReadLine().ToLower();
+            try
+            {
+                method.AddStreet(blockname, name, type);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            }            
         }
         public static void RemoveBlockMenu()
         {
             Console.WriteLine("Enter the name of the block");
-            string blockname = Console.ReadLine();
-            method.RemoveBlock(blockname);
+            string blockname = Console.ReadLine().ToLower();
+            try
+            {
+                method.RemoveBlock(blockname);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            }           
         }
         public static void RemoveStreetMenu()
         {
             Console.WriteLine("Enter the name of the block");
-            string blockname = Console.ReadLine();
+            string blockname = Console.ReadLine().ToLower();
             Console.WriteLine("Enter the name of the street");
-            string name = Console.ReadLine();
-            method.RemoveStreet(blockname, name);
+            string name = Console.ReadLine().ToLower();
+            try
+            {
+                method.RemoveStreet(blockname, name);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            }            
         }
         public static void StartSystemMenu()
         {
-            method.StartSystem();
+            try
+            {
+                method.StartSystem();
+            }
+            catch (Exception e)
+            {  
+                Console.WriteLine(e.Message);
+            }            
         }
         public static void StopLightsByStreetMenu()
         {
             Console.WriteLine("Enter the name of the block");
-            string blockname = Console.ReadLine();
+            string blockname = Console.ReadLine().ToLower();
             Console.WriteLine("Enter the name of the street");
-            string name = Console.ReadLine();
-            method.StopLightsByStreet(blockname, name);
+            string name = Console.ReadLine().ToLower();
+            try
+            {
+                method.StopLightsByStreet(blockname, name);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            }           
         }
         public static void StartLightByStreetMenu()
         {
             Console.WriteLine("Enter the name of the block");
-            string blockname = Console.ReadLine();
+            string blockname = Console.ReadLine().ToLower();
             Console.WriteLine("Enter the name of the street");
-            string name = Console.ReadLine();
-            method.StartLightByStreet(blockname, name);
+            string name = Console.ReadLine().ToLower();
+            try
+            {
+                method.StartLightByStreet(blockname, name);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            }           
+        }
+        public static void StopLightByBlockMenu()
+        {
+            Console.WriteLine("Enter the name of the block");
+            string blockname = Console.ReadLine().ToLower();
+            try
+            {
+                method.StopLightByBlock(blockname);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            } 
+        }
+        public static void StartLightByBlockMenu()
+        {
+            Console.WriteLine("Enter the name of the block");
+            string blockname = Console.ReadLine().ToLower();
+            try
+            {
+                method.StartLightByBlock(blockname);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Something went wrong!");
+                Console.WriteLine(e.Message);
+            }        
         }
     }    
 }
