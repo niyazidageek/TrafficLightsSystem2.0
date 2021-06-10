@@ -13,9 +13,11 @@ namespace TrafficLightsSystem2._0.Services
         {
             Console.WriteLine("Enter the name of the block");
             string blockname = Console.ReadLine().ToLower();
+            Console.WriteLine("Insert the interval");
+            int interval = int.Parse(Console.ReadLine());
             try
             {
-                method.AddBlock(blockname);
+                method.AddBlock(blockname, interval);
             }
             catch (Exception e)
             {

@@ -8,6 +8,7 @@ namespace TrafficLightsSystem2._0.Entities
 {
     public class Block
     {
+        public int Interval { get; set; }
         public string Name { get; set; }        
         public List<Street> ParallelStreets { get; set; }
         public List<Street> PerpendicularStreets { get; set; }

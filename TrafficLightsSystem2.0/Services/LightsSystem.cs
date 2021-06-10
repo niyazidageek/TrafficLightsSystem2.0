@@ -15,12 +15,15 @@ namespace TrafficLightsSystem2._0.Services
         {
             Blocks = new();
         }
-        public void AddBlock(string blockname)
+        public void AddBlock(string blockname, int interval)
         {
             Block block = new();                                   
             if (string.IsNullOrEmpty(blockname))
                 throw new ArgumentNullException("Name can not be null");
+            if (interval <= 0)
+                throw new ArgumentOutOfRangeException("Interval can not be less than or equal to 0");
             block.Name = blockname.ToLower();
+            block.Interval = interval;
             Blocks.Add(block);
         }
         public static int check = 0;
@@ -79,39 +82,59 @@ namespace TrafficLightsSystem2._0.Services
                 block.ParallelStreets.RemoveAt(parallelresult);
             }
         }
-        public void Lights()
+        public void Lights(Block block)
         {
             Timer time = new();
-            
+
             while (check != 1)
             {
                 if (check == 1)
                     throw new KeyNotFoundException("System has stopped.");
                 time.Time = DateTime.Now;
-                time.FutureTime = time.Time.AddSeconds(10);
-                foreach (var item in Blocks)
+                time.FutureTime = time.Time.AddSeconds(block.Interval);
+                foreach (var item1 in block.ParallelStreets)
                 {
-                    foreach (var item1 in item.ParallelStreets)
+                    if (item1.Status != "Disabled")
                     {
-                        if (item1.Status != "Disabled")
-                        {
-                            item1.Status = "Red";
-                        }
-                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
+                        item1.Status = "Red";
                     }
-
-                    foreach (var item1 in item.PerpendicularStreets)
-                    {
-                        if (item1.Status != "Disabled")
-                        {
-                            item1.Status = "Green";
-                        }
-                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
-                    }
+                    Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
                 }
 
+                foreach (var item1 in block.PerpendicularStreets)
+                {
+                    if (item1.Status != "Disabled")
+                    {
+                        item1.Status = "Green";
+                    }
+                    Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
+                }
+                while (time.Time.Second != time.FutureTime.Second)
+                {
+                    if (check == 1)
+                        throw new KeyNotFoundException("System has stopped.");
+                    time.Time = DateTime.Now;
+                }
                 Console.WriteLine("============================");
 
+                foreach (var item1 in block.ParallelStreets)
+                {
+                    if (item1.Status != "Disabled")
+                    {
+                        item1.Status = "Green";
+                    }
+                    Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
+                }
+
+                foreach (var item1 in block.PerpendicularStreets)
+                {
+                    if (item1.Status != "Disabled")
+                    {
+                        item1.Status = "Red";
+                    }
+                    Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
+                }
+                time.FutureTime = time.Time.AddSeconds(block.Interval);
                 while (time.Time.Second != time.FutureTime.Second)
                 {
                     if (check == 1)
@@ -119,36 +142,8 @@ namespace TrafficLightsSystem2._0.Services
                     time.Time = DateTime.Now;
                 }
 
-                foreach (var item in Blocks)
-                {
-                    foreach (var item1 in item.ParallelStreets)
-                    {
-                        if (item1.Status != "Disabled")
-                        {
-                            item1.Status = "Green";
-                        }
-                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
-                    }
-
-                    foreach (var item1 in item.PerpendicularStreets)
-                    {
-                        if (item1.Status != "Disabled")
-                        {
-                            item1.Status = "Red";
-                        }
-                        Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
-                    }
-                }
-
-
-                time.FutureTime = time.Time.AddSeconds(10);
-                while (time.Time.Second != time.FutureTime.Second)
-                {
-                    if (check == 1)
-                        throw new KeyNotFoundException("System has stopped.");
-                    time.Time = DateTime.Now;
-                }
                 Console.WriteLine("=============================");
+
             }
         }
         public void StopLightsByStreet(string blockname, string name)
@@ -256,10 +251,6 @@ namespace TrafficLightsSystem2._0.Services
                 }
             } while (option != 0);
         }
-        public void StartSystem()
-        {
-            Parallel.Invoke(HiddenMenu, Lights);
-        }
         public void StopLightByBlock(string blockname)
         {
             var block = Blocks.Find(s=>s.Name == blockname);
@@ -291,6 +282,10 @@ namespace TrafficLightsSystem2._0.Services
             {
                 item.Status = string.Empty;
             }
+        }
+        public void StartSystem()
+        {
+            Parallel.ForEach(Blocks, item => { Parallel.Invoke(HiddenMenu, () => Lights(item));});           
         }
     }
 }
