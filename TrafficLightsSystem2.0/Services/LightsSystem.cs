@@ -15,15 +15,16 @@ namespace TrafficLightsSystem2._0.Services
         {
             Blocks = new();
         }
-        public void AddBlock(string blockname, int interval)
+        public void AddBlock(string blockname, int startinterval, int stopinterval)
         {
             Block block = new();                                   
             if (string.IsNullOrEmpty(blockname))
                 throw new ArgumentNullException("Name can not be null");
-            if (interval <= 0)
+            if (startinterval <= 0 || stopinterval <= 0)
                 throw new ArgumentOutOfRangeException("Interval can not be less than or equal to 0");
             block.Name = blockname.ToLower();
-            block.Interval = interval;
+            block.StartInterval = startinterval;
+            block.StopInterval = stopinterval;
             Blocks.Add(block);
         }
         public static int check = 0;
@@ -91,7 +92,7 @@ namespace TrafficLightsSystem2._0.Services
                 if (check == 1)
                     throw new KeyNotFoundException("System has stopped.");
                 time.Time = DateTime.Now;
-                time.FutureTime = time.Time.AddSeconds(block.Interval);
+                time.FutureTime = time.Time.AddSeconds(block.StartInterval);
                 foreach (var item1 in block.ParallelStreets)
                 {
                     if (item1.Status != "Disabled")
@@ -134,7 +135,7 @@ namespace TrafficLightsSystem2._0.Services
                     }
                     Console.WriteLine($"{item1.Name}, {item1.Status}, {item1.Type.First().ToString().ToUpper() + item1.Type.Substring(1)}");
                 }
-                time.FutureTime = time.Time.AddSeconds(block.Interval);
+                time.FutureTime = time.Time.AddSeconds(block.StopInterval);
                 while (time.Time.Second != time.FutureTime.Second)
                 {
                     if (check == 1)
@@ -216,7 +217,7 @@ namespace TrafficLightsSystem2._0.Services
                     optionstr = Console.ReadLine();
                 }
                 switch (option)
-                {
+                { 
                     case 1:
                         MenuService.AddBlockMenu();
                         break;
@@ -283,9 +284,13 @@ namespace TrafficLightsSystem2._0.Services
                 item.Status = string.Empty;
             }
         }
+        public void Light()
+        {
+            Parallel.ForEach(Blocks, item => { Parallel.Invoke( () => Lights(item));});           
+        }
         public void StartSystem()
         {
-            Parallel.ForEach(Blocks, item => { Parallel.Invoke(HiddenMenu, () => Lights(item));});           
+            Parallel.Invoke(HiddenMenu, Light);
         }
     }
 }
