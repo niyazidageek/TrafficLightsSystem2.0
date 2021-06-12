@@ -43,6 +43,7 @@ namespace TrafficLightsSystem2._0
                         break;
                     case 5:
                         MenuService.StartSystemMenu();
+                        LightsSystem.check = 0;
                         break;
                     case 6:
                         MenuService.StopLightsByStreetMenu();
